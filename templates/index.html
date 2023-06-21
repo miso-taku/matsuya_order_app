@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <style>
+            body {
+                background-color: #f8f9fa;
+                padding: 20px;
+            }
+            input[type=text] {
+                width: 80%;
+                height: 20%%;
+                padding: 12px 20px;
+                margin: 8px 0;
+                box-sizing: border-box;
+            }
+            .btn-primary {
+                background-color: #007bff;
+                border-color: #007bff;
+            }
+            .btn-primary:hover {
+                background-color: #0069d9;
+                border-color: #0062cc;
+            }
+            .btn-danger {
+                background-color: #dc3545;
+                border-color: #dc3545;
+            }
+            .btn-danger:hover {
+                background-color: #c82333;
+                border-color: #bd2130;
+            }
+            .btn-info {
+                background-color: #17a2b8;
+                border-color: #17a2b8;
+            }
+            .btn-info:hover {
+                background-color: #138496;
+                border-color: #117a8b;
+            }
+            div {
+                margin-bottom: 10px;
+            }
+        </style>
+    <body>
+        <div>
+            <input type="text" id="txt1">
+        </div>
+        <div>
+            <button id="btn1" class = "btn-primary">注文開始</button>
+            <button id="btn2" class = "btn-danger">注文終了</button>
+        </div>
+        <script>
+            var timer = {}
+            $("#btn1").on("click", function(){
+                $.ajax({
+                    url: '/start',
+                    type: 'POST',
+                    dataType: 'json',
+                }).done(
+                    function(json){
+                        fn = json['item'];
+                    }
+                ).fail(
+                    function(e){
+                        console.log(e);
+                        console.log('failed');
+                    }
+                )            
+            });
+            $("#btn2").on("click", function(){
+                $.ajax({
+                    url: "/stop",
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify({ 'rfn' : fn}),
+                    dataType: 'json',
+                }).done(
+                    function(json){
+                        $("#txt1").val(json["item"]);
+                    }
+                ).fail(
+                    function(e){
+                        console.log(e);
+                        console.log("error");
+                    }
+                )
+            });
+        </script>
+    </body>
+</html>
