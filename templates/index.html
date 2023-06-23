@@ -70,6 +70,7 @@
                 )            
             });
             $("#btn2").on("click", function(){
+                $("#txt1").val("");
                 $.ajax({
                     url: "/stop",
                     type: "POST",
